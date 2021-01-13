@@ -1,6 +1,6 @@
-(ns aoc2020.core)
+(ns aoc2020.core
+  (:require [clojure.java.io :as io]))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn read-resource-file [input]
+  (with-open [rdr (io/reader (io/resource input))]
+    (doall (line-seq rdr))))
