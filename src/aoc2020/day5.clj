@@ -1,4 +1,4 @@
-(ns aoc2020.week5
+(ns aoc2020.day5
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.set :as set]
