@@ -6,16 +6,17 @@
             [loom.graph :as graph]
             [loom.attr :as attr]))
 
-(declare calculate parse-source-into-commands create-command-from run)
+(declare calculate parse-source-into-commands create-command-from run run-simulations)
 
 (defrecord Cmd [line cmd val])
 
 (defn calculate [input]
   (let [lines (core/read-resource-file input)
-        program (parse-source-into-commands lines)
-        a (run (vec program))]
-    (println "PROGRAM" program)
-    [a]))
+        program (vec (parse-source-into-commands lines))
+        [_ answer] (run program)
+        sims (run-simulations program)
+        [_ answer2] (first (filter (fn [[exit ans]] (= exit 0)) sims))]
+    [answer answer2]))
 
 (defn- parse-source-into-commands [lines]
   (for [[idx line] (map-indexed vector lines)
@@ -31,12 +32,22 @@
   (loop [position 0
          acc 0
          already_run #{}]
-    (let [cmd (program position)
-          [new_acc new_position] (case (:cmd cmd)
-                                   "jmp" [acc (+ position (:val cmd))]
-                                   "acc" [(+ acc (:val cmd)) (inc position)]
-                                   [acc (inc position)])
-          ]
-      (if (contains? already_run cmd)
-        acc
-        (recur new_position new_acc (conj already_run cmd))))))
+    (if (>= position (count program))
+      [0 acc]
+      (let [cmd (program position)
+            [new_acc new_position] (case (:cmd cmd)
+                                     "jmp" [acc (+ position (:val cmd))]
+                                     "acc" [(+ acc (:val cmd)) (inc position)]
+                                     [acc (inc position)])
+            ]
+        (if (contains? already_run cmd)
+          [1 acc]
+          (recur new_position new_acc (conj already_run cmd)))))))
+
+(defn- run-simulations [program]
+  (for [[idx cmd] (map-indexed vector program)
+        :when (contains? #{"nop" "jmp"} (:cmd cmd))]
+    (run (assoc program idx (case (:cmd cmd)
+                              "jmp" (assoc program idx (assoc cmd :cmd "nop"))
+                              "nop" (assoc program idx (assoc cmd :cmd "jmp"))
+                              nil)))))

@@ -4,8 +4,8 @@
 
 (deftest calculate-test
   (testing "Day 8 test"
-    (let [[a] (calculate "day8_input1.txt")]
+    (let [[a b] (calculate "day8_input1.txt")]
       (do
         (is (= a 1749))
-        ;(is (= b 27526))
+        (is (= b 515))
         ))))
