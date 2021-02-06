@@ -3,7 +3,7 @@
             [aoc2020.day10 :refer :all]))
 
 (deftest calculate-test
-  (testing "Day 9 test"
+  (testing "Day 10 test"
     (let [[a b] (calculate "day10_input1.txt")]
       (do
         (is (= a 2277))
