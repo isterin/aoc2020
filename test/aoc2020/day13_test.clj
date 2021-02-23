@@ -6,6 +6,6 @@
   (testing "Day 13 test"
     (let [[a b] (calculate "day13_input1.txt")]
       (do
-        (is (= a 1))
-        (is (= b 2))
+        (is (= a 4315))
+        (is (= b 556100168221141))
         ))))
