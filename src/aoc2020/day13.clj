@@ -29,17 +29,12 @@
                             (map (fn [[b idx]] {:bus (Integer/parseInt b) :time idx})))]
     buses-with-rem))
 
-(defn- wait [bus t]
-  (let [rem (mod t bus)]
-    (if (= rem 0)
-      0
-      (- bus rem))))
-
 (defn- min-time [schedule]
   "Schedule: [[time-offset bus-id] [time-offset bus-id]]"
   (loop [time 0
          step 1
          schedule schedule]
+    (println "TIME" time "STEP" step "SCHEDULE" schedule)
     (if (empty? schedule)
       time
       (recur (calc-time (first schedule) time step) (* step (->> schedule first :bus)) (rest schedule)))))
@@ -50,3 +45,9 @@
       (if (= w 0)
         time
         (recur (+ time step))))))
+
+(defn- wait [bus t]
+  (let [rem (mod t bus)]
+    (if (= rem 0)
+      0
+      (- bus rem))))
