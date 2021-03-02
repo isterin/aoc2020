@@ -34,13 +34,14 @@
   (loop [time 0
          step 1
          schedule schedule]
-    (println "TIME" time "STEP" step "SCHEDULE" schedule)
+    ;(println "TIME" time ", STEP" step ", SCHEDULE" schedule)
     (if (empty? schedule)
       time
       (recur (calc-time (first schedule) time step) (* step (->> schedule first :bus)) (rest schedule)))))
 
 (defn- calc-time [{bus :bus time-offset :time} time step]
   (loop [time time]
+    ;(println "\tTIME" time ", BUS" bus ", OFFSET" time-offset)
     (let [w (wait bus (+ time time-offset))]
       (if (= w 0)
         time
