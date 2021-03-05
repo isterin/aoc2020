@@ -61,7 +61,6 @@
         acc
         (let [m (first masks)
               masked-loc (apply-mask location' m)
-              ;_ (println m " ::: " bin-loc " ::: " masked-loc)
               masked-loc' (Long/parseLong masked-loc 2)]
           (recur (rest masks) (assoc acc masked-loc' (Long/parseLong num))))))))
 
