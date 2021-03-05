@@ -7,5 +7,5 @@
     (let [[a b] (calculate "day14_input1.txt")]
       (do
         (is (= a 7440382076205))
-        (is (= b 0))
+        (is (= b 4200656704538))
         ))))
