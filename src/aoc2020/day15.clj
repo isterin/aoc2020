@@ -9,9 +9,8 @@
 (declare calculate process)
 
 (defn calculate [input]
-  (let []
-    [(process input 2020)
-     (process input 30000000)]))
+  [(process input 2020)
+   (process input 30000000)])
 
 (defn- process [input n]
   (loop [lst input
