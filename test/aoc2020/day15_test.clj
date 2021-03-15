@@ -4,7 +4,8 @@
 
 (deftest calculate-test
   (testing "Day 14 test"
-    (let [[a b] (calculate [8 0 17 4 1 12])]
+    (let [a (calculate [8 0 17 4 1 12] 2020)
+          b (calculate [8 0 17 4 1 12] 30000000)]
       (do
         (is (= a 981))
         (is (= b 0))

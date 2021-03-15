@@ -6,18 +6,25 @@
             [clojure.math.combinatorics :as combo]
             [flatland.ordered.set :refer [ordered-set]]))
 
-(declare calculate process)
+(declare calculate)
 
-(defn calculate [input]
-  [(process input 2020)
-   (process input 30000000)])
-
-(defn- process [input n]
+(defn calculate [input n]
+  ;(println input)
   (loop [lst input
-         idx (count input)]
-    (if (<= n idx)
-      (last lst)
-      (let [i (.lastIndexOf (drop-last lst) (lst (dec idx)))
-            curr (if (= i -1) 0 (- (dec idx) i))]
-        ;(println curr idx)
-        (recur (conj lst curr) (inc idx))))))
+         idx (dec (count input))
+         cache (into {} (map-indexed (fn [idx itm] [itm idx]) (drop-last input)))]
+    ;(println (take-last 5 lst))
+    ;(println lst)
+    ;(println idx n (count input))
+    (when (= (mod idx 10000) 0)
+      (do
+        (println idx (type lst) (type cache))f
+        (time (get cache (lst idx)))
+        (time (assoc cache (last lst) idx))
+        (time (conj lst 1))))
+    (if (< idx (dec n))
+      (let [i (get cache (lst idx))
+            curr (if i (- idx i) 0)
+            cache (assoc cache (last lst) idx)]
+        (recur (conj lst curr) (inc idx) cache))
+      (last lst))))
